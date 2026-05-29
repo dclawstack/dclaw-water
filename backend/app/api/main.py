@@ -1,16 +1,20 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.core.database import init_db
+from app.core.database import init_db, engine
 from app.api.routes import health
-from app.api.v1 import meters, readings, leaks, quality, dashboard, copilot
+from app.api.v1 import meters, readings, leaks, quality, dashboard, copilot, auth
+from app.services.seed_service import seed_default_admin
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
+    async with AsyncSession(engine, expire_on_commit=False) as db:
+        await seed_default_admin(db)
     yield
 
 
@@ -30,6 +34,7 @@ app.add_middleware(
 )
 
 app.include_router(health.router, prefix="/health", tags=["health"])
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
 app.include_router(meters.router, prefix="/api/v1/meters", tags=["meters"])
 app.include_router(readings.router, prefix="/api/v1/readings", tags=["readings"])
 app.include_router(leaks.router, prefix="/api/v1/leaks", tags=["leaks"])

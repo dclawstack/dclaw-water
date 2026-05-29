@@ -4,6 +4,7 @@ from app.models.meter_reading import MeterReading
 from app.models.leak_alert import LeakAlert, AlertType, AlertSeverity, AlertStatus
 from app.models.quality_reading import QualityReading
 from app.models.copilot import CopilotMessage, MessageRole
+from app.models.user import User
 
 __all__ = [
     "Base",
@@ -12,4 +13,5 @@ __all__ = [
     "LeakAlert", "AlertType", "AlertSeverity", "AlertStatus",
     "QualityReading",
     "CopilotMessage", "MessageRole",
+    "User",
 ]
