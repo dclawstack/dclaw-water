@@ -1,0 +1,26 @@
+{
+  "app_id": "water",
+  "name": "DClaw Water",
+  "version": "1.0.0",
+  "category": "Utilities",
+  "tagline": "AI-powered water management platform",
+  "color": "#7660A8",
+  "icon": "💧",
+  "port_frontend": 3055,
+  "port_backend": 8141,
+  "database": "dclaw_water",
+  "status": "active",
+  "features": [
+    "usage_monitoring",
+    "leak_detection",
+    "quality_monitoring",
+    "ai_copilot"
+  ],
+  "routes": [
+    { "path": "/dashboard", "label": "Dashboard" },
+    { "path": "/meters", "label": "Meters" },
+    { "path": "/readings", "label": "Readings" },
+    { "path": "/leaks", "label": "Leak Alerts" },
+    { "path": "/quality", "label": "Quality" }
+  ]
+}

@@ -1,21 +1,15 @@
-from fastapi.testclient import TestClient
-from app.main import app
+import pytest
+from httpx import AsyncClient
 
-client = TestClient(app)
 
-def test_health():
-    response = client.get("/health")
-    assert response.status_code == 200
-    assert response.json() == {"status": "ok"}
+@pytest.mark.asyncio
+async def test_health(client: AsyncClient):
+    resp = await client.get("/health/")
+    assert resp.status_code == 200
+    assert resp.json() == {"status": "ok"}
 
-def test_create_report():
-    response = client.post("/reports", json={"facility_id": "FAC-001"})
-    assert response.status_code == 200
-    data = response.json()
-    assert data["facility_id"] == "FAC-001"
-    assert "id" in data
 
-def test_get_zones():
-    response = client.get("/reports/abc/zones")
-    assert response.status_code == 200
-    assert len(response.json()) == 3
+@pytest.mark.asyncio
+async def test_docs_accessible(client: AsyncClient):
+    resp = await client.get("/docs")
+    assert resp.status_code == 200

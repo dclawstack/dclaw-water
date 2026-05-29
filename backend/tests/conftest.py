@@ -4,13 +4,16 @@ from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.pool import NullPool
 
-from app.api.main import app
+from app.api.main import app as fastapi_app
 from app.core.database import get_db
 from app.models.base import Base
+import app.models  # noqa: F401 — registers all models with Base.metadata
+
+app = fastapi_app
 
 TEST_DATABASE_URL = os.environ.get(
     "DATABASE_URL",
-    "postgresql+asyncpg://postgres:postgres@localhost:5432/dclaw_app_test",
+    "postgresql+asyncpg://postgres:postgres@localhost:5432/dclaw_water",
 )
 
 test_engine = create_async_engine(TEST_DATABASE_URL, poolclass=NullPool)
