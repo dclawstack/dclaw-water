@@ -7,7 +7,7 @@ from app.core.config import settings
 from app.core.database import init_db, engine
 from app.api.routes import health
 from app.api.v1 import meters, readings, leaks, quality, dashboard, copilot, auth
-from app.services.seed_service import seed_default_admin
+from app.services.seed_service import seed_default_admin, seed_demo_data
 
 
 @asynccontextmanager
@@ -15,6 +15,7 @@ async def lifespan(app: FastAPI):
     await init_db()
     async with AsyncSession(engine, expire_on_commit=False) as db:
         await seed_default_admin(db)
+        await seed_demo_data(db)
     yield
 
 
